@@ -2,7 +2,7 @@
 // @name         Reddit External Links
 // @namespace    https://github.com/LenAnderson/
 // @downloadURL  https://github.com/LenAnderson/Reddit-External-Links/raw/master/reddit_external_links.user.js
-// @version      1.2
+// @version      1.3
 // @match        https://www.reddit.com/*
 // @match        https://www.reddit.com
 // @grant        none
@@ -37,7 +37,9 @@ if (!document.querySelector('p') || document.querySelector('p').textContent != '
             });
         }
 
-        location.replace(location.href.substring(0,location.href.length - location.hash.length) + '#' + new Date().getTime());
+        if (location.href.search('/comments/') > -1) {
+            location.replace(location.href.substring(0,location.href.length - location.hash.length) + '#' + new Date().getTime());
+        }
     }
 
     var mo = new MutationObserver(function(muts) {
