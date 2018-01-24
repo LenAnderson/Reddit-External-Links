@@ -2,7 +2,7 @@
 // @name         Reddit External Links
 // @namespace    https://github.com/LenAnderson/
 // @downloadURL  https://github.com/LenAnderson/Reddit-External-Links/raw/master/reddit_external_links.user.js
-// @version      1.3
+// @version      1.4
 // @match        https://www.reddit.com/*
 // @match        https://www.reddit.com
 // @grant        none
@@ -31,8 +31,10 @@ if (!document.querySelector('p') || document.querySelector('p').textContent != '
             let things = [].slice.call(document.querySelectorAll('.commentarea > .sitetable .thing'));
             things.forEach(thing => {
                 let submitDate = new Date(thing.querySelector('.tagline > time').getAttribute('datetime'));
+                console.log(date, submitDate, submitDate > date);
                 if (submitDate > date) {
-                    thing.style.backgroundColor = 'rgb(230, 244, 255)';
+                    console.log('chaing bg');
+                    thing.style.setProperty('background-color', 'rgb(230, 244, 255)', 'important');
                 }
             });
         }
