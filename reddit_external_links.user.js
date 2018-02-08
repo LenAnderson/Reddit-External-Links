@@ -2,19 +2,24 @@
 // @name         Reddit External Links
 // @namespace    https://github.com/LenAnderson/
 // @downloadURL  https://github.com/LenAnderson/Reddit-External-Links/raw/master/reddit_external_links.user.js
-// @version      1.4
+// @version      1.5
 // @match        https://www.reddit.com/*
 // @match        https://www.reddit.com
 // @grant        none
 // ==/UserScript==
 
 function changeLinks() {
-    [].forEach.call(document.querySelectorAll('.listing-page #siteTable > .thing.link > .entry'), function(entry) {
-        var link = entry.querySelector('a.title');
-        if (link.href.search(/^https?:\/\/www.reddit.com/) == -1) {
-            link.href = entry.querySelector('.buttons a.comments').href + '?followExternalLink';
-            link.setAttribute('data-href-url', link.href);
-            link.setAttribute('data-outbound-url', link.href);
+    [].forEach.call(document.querySelectorAll('.listing-page #siteTable > .thing'), thing => {
+        if (thing.querySelector('.midcol.dislikes, .midcol.likes')) {
+            thing.style.setProperty('opacity', '0.5');
+        }
+        if (thing.classList.contains('link')) {
+            let link = thing.querySelector('.entry a.title');
+            if (link.href.search(/^https?:\/\/www.reddit.com/) == -1) {
+                link.href = thing.querySelector('.buttons a.comments').href + '?followExternalLink';
+                link.setAttribute('data-href-url', link.href);
+                link.setAttribute('data-outbound-url', link.href);
+            }
         }
     });
 }
