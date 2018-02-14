@@ -2,7 +2,7 @@
 // @name         Reddit External Links
 // @namespace    https://github.com/LenAnderson/
 // @downloadURL  https://github.com/LenAnderson/Reddit-External-Links/raw/master/reddit_external_links.user.js
-// @version      1.5
+// @version      1.6
 // @match        https://www.reddit.com/*
 // @match        https://www.reddit.com
 // @grant        none
@@ -31,14 +31,23 @@ if (!document.querySelector('p') || document.querySelector('p').textContent != '
         history.replaceState({}, "", location.href.replace(/\?followExternalLink/, '').substring(0,location.href.length - location.hash.length) + '#' + new Date().getTime());
         document.querySelector('.single-page #siteTable > .thing.link > .entry a.title').click();
     } else {
+        let times;
+        try {
+            times = JSON.parse(localStorage.getItem('reddit-external-links-times'));
+        } catch (ex) {
+            times = {};
+        }
+        let date;
         if (location.hash && location.hash.search(/^#\d+$/) == 0) {
-            let date = new Date(location.hash.substring(1)*1);
+            date = new Date(location.hash.substring(1)*1);
+        } else if (times[location.pathname]) {
+            date = new Date(times[location.pathname]);
+        }
+        if (date) {
             let things = [].slice.call(document.querySelectorAll('.commentarea > .sitetable .thing'));
             things.forEach(thing => {
                 let submitDate = new Date(thing.querySelector('.tagline > time').getAttribute('datetime'));
-                console.log(date, submitDate, submitDate > date);
                 if (submitDate > date) {
-                    console.log('chaing bg');
                     thing.style.setProperty('background-color', 'rgb(230, 244, 255)', 'important');
                 }
             });
@@ -46,6 +55,13 @@ if (!document.querySelector('p') || document.querySelector('p').textContent != '
 
         if (location.href.search('/comments/') > -1) {
             location.replace(location.href.substring(0,location.href.length - location.hash.length) + '#' + new Date().getTime());
+            times[location.pathname] = new Date().getTime();
+            let newTimes = {};
+            let cutoff = new Date().getTime() - 1000 * 60 * 60 * 24 * 10;
+            Object.keys(times).forEach(p => {
+                if (times[p] > cutoff) newTimes[p] = times[p];
+            });
+            localStorage.setItem('reddit-external-links-times', JSON.stringify(newTimes));
         }
     }
 
