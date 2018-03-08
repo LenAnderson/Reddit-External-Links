@@ -2,7 +2,7 @@
 // @name         Reddit External Links
 // @namespace    https://github.com/LenAnderson/
 // @downloadURL  https://github.com/LenAnderson/Reddit-External-Links/raw/master/reddit_external_links.user.js
-// @version      1.6
+// @version      1.7
 // @match        https://www.reddit.com/*
 // @match        https://www.reddit.com
 // @grant        none
@@ -33,7 +33,7 @@ if (!document.querySelector('p') || document.querySelector('p').textContent != '
     } else {
         let times;
         try {
-            times = JSON.parse(localStorage.getItem('reddit-external-links-times'));
+            times = JSON.parse(localStorage.getItem('reddit-external-links-times')) || {};
         } catch (ex) {
             times = {};
         }
