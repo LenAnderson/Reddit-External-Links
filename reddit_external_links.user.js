@@ -2,7 +2,7 @@
 // @name         Reddit External Links
 // @namespace    https://github.com/LenAnderson/
 // @downloadURL  https://github.com/LenAnderson/Reddit-External-Links/raw/master/reddit_external_links.user.js
-// @version      1.7
+// @version      1.8
 // @match        https://www.reddit.com/*
 // @match        https://www.reddit.com
 // @grant        none
@@ -57,7 +57,7 @@ if (!document.querySelector('p') || document.querySelector('p').textContent != '
             location.replace(location.href.substring(0,location.href.length - location.hash.length) + '#' + new Date().getTime());
             times[location.pathname] = new Date().getTime();
             let newTimes = {};
-            let cutoff = new Date().getTime() - 1000 * 60 * 60 * 24 * 10;
+            let cutoff = new Date().getTime() - 1000 * 60 * 60 * 24 * 2;
             Object.keys(times).forEach(p => {
                 if (times[p] > cutoff) newTimes[p] = times[p];
             });
