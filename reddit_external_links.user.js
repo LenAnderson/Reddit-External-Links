@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Reddit External Links
+// @name         Reddit - External Links
 // @namespace    https://github.com/LenAnderson/
 // @downloadURL  https://github.com/LenAnderson/Reddit-External-Links/raw/master/reddit_external_links.user.js
-// @version      1.8
+// @version      1.9
 // @match        https://www.reddit.com/*
 // @match        https://www.reddit.com
 // @grant        none
@@ -69,4 +69,7 @@ if (!document.querySelector('p') || document.querySelector('p').textContent != '
         changeLinks();
     });
     mo.observe(document.body, {childList: true, subtree: true});
+    let side = document.querySelector('.side');
+    side.style.position = 'relative';
+    side.style.zIndex = '999';
 }
