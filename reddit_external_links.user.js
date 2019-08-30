@@ -2,7 +2,7 @@
 // @name         Reddit - External Links
 // @namespace    https://github.com/LenAnderson/
 // @downloadURL  https://github.com/LenAnderson/Reddit-External-Links/raw/master/reddit_external_links.user.js
-// @version      1.9
+// @version      1.10
 // @match        https://www.reddit.com/*
 // @match        https://www.reddit.com
 // @grant        none
@@ -13,7 +13,7 @@ function changeLinks() {
         if (thing.querySelector('.midcol.dislikes, .midcol.likes')) {
             thing.style.setProperty('opacity', '0.5');
         }
-        if (thing.classList.contains('link')) {
+        if (thing.classList.contains('link') && thing.querySelector('.buttons a.comments')) {
             let link = thing.querySelector('.entry a.title');
             if (link.href.search(/^https?:\/\/www.reddit.com/) == -1) {
                 link.href = thing.querySelector('.buttons a.comments').href + '?followExternalLink';
@@ -44,7 +44,7 @@ if (!document.querySelector('p') || document.querySelector('p').textContent != '
             date = new Date(times[location.pathname]);
         }
         if (date) {
-            let things = [].slice.call(document.querySelectorAll('.commentarea > .sitetable .thing'));
+            let things = [].slice.call(document.querySelectorAll('.commentarea > .sitetable .thing[data-type="comment"]'));
             things.forEach(thing => {
                 let submitDate = new Date(thing.querySelector('.tagline > time').getAttribute('datetime'));
                 if (submitDate > date) {
@@ -70,6 +70,8 @@ if (!document.querySelector('p') || document.querySelector('p').textContent != '
     });
     mo.observe(document.body, {childList: true, subtree: true});
     let side = document.querySelector('.side');
-    side.style.position = 'relative';
-    side.style.zIndex = '999';
+    if (side) {
+        side.style.position = 'relative';
+        side.style.zIndex = '999';
+    }
 }
